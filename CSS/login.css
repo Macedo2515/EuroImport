@@ -1,0 +1,110 @@
+/* =========================================================
+   ESTILOS EXCLUSIVOS DA PÁGINA DE LOGIN
+   ========================================================= */
+
+.login-section {
+    background-image: url('../IMG/Fundo_homepage.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+ 
+    background-position: 0% center; 
+
+    min-height: calc(100vh - 85px); 
+    display: flex;
+    align-items: stretch;
+}
+
+.login-sidebar {
+    background-color: rgba(11, 28, 63, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 450px;
+    padding: 60px 50px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-sidebar h2 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    margin-bottom: 40px;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    font-family: var(--font-body);
+}
+
+.forgot-pass {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #ffffff;
+    text-decoration: underline;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.forgot-pass:hover {
+    opacity: 1;
+}
+
+/* O botão branco de Login */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background-color: #ffffff;
+    color: #0b1c3f; /* Usa a tua cor primária para o texto */
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+    font-family: var(--font-body);
+}
+
+.btn-login:hover {
+    background-color: #e6e6e6;
+}
+
+.register-link {
+    text-align: left;
+    margin-top: 25px;
+}
+
+.register-link a {
+    color: #ffffff;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.register-link a:hover {
+    opacity: 1;
+}

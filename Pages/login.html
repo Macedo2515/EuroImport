@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Euroimport Motors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/login.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="../IMG/Logo.png" alt="Logótipo Euroimport Motors">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                    <li><a href="servicos.html">SERVIÇOS</a></li>
+                    <li><a href="veiculos.html">VEÍCULOS</a></li>
+                    <li><a href="sobre.html">SOBRE NÓS</a></li>
+                    <li><a href="contactos.html">CONTACTOS</a></li>
+                    <li><a href="login.html">ENTRAR / REGISTAR</a></li>
+                </ul>
+            </nav>
+            <a href="proposta.html" class="btn btn-primary">Pedir Proposta</a>
+        </div>
+    </header>
+
+    <section class="login-section">
+        <div class="login-sidebar">
+
+            <!-- FORMULÁRIO DE LOGIN -->
+            <div id="form-login">
+                <h2>Login</h2>
+                <form action="/login" method="POST">
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <a href="#" class="forgot-pass" onclick="mostrarRecuperacao(); return false;">Esqueci-me da password</a>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <span class="icon">👤</span> Login
+                    </button>
+                    <div class="register-link">
+                        <a href="register.html">Ainda não tens conta? Cria uma agora!</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- FORMULÁRIO DE RECUPERAÇÃO -->
+            <div id="form-recuperacao" style="display:none;">
+                <h2>Recuperar Password</h2>
+                <p style="font-size:14px; color:#666; margin-bottom:20px;">Insere o teu email e vamos enviar-te uma nova password.</p>
+                <div class="input-group">
+                    <label for="email-recuperar">Email</label>
+                    <input type="email" id="email-recuperar" placeholder="O teu email registado">
+                </div>
+                <div id="msg-recuperacao" style="display:none; padding:10px; border-radius:8px; font-size:14px; margin-bottom:12px;"></div>
+                <button class="btn-login" onclick="enviarRecuperacao()">📧 Enviar Nova Password</button>
+                <div class="register-link" style="margin-top:12px;">
+                    <a href="#" onclick="mostrarLogin(); return false;">← Voltar ao Login</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="../IMG/Logo_rodape.png" alt="Logótipo Euroimport Motors" class="logo-footer">
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+            </ul>
+            <div class="footer-socials">
+                <a href="#" target="_blank"><img src="../IMG/insta.png" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="../IMG/face.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="../IMG/whats.png" alt="Whatsapp"></a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+function mostrarRecuperacao() {
+    document.getElementById('form-login').style.display = 'none';
+    document.getElementById('form-recuperacao').style.display = 'block';
+}
+
+function mostrarLogin() {
+    document.getElementById('form-recuperacao').style.display = 'none';
+    document.getElementById('form-login').style.display = 'block';
+}
+
+async function enviarRecuperacao() {
+    const email = document.getElementById('email-recuperar').value.trim();
+    const msg = document.getElementById('msg-recuperacao');
+    const btn = document.querySelector('#form-recuperacao .btn-login');
+
+    if (!email) {
+        msg.style.display = 'block';
+        msg.style.background = '#fee2e2';
+        msg.style.color = '#991b1b';
+        msg.textContent = 'Insere o teu email!';
+        return;
+    }
+
+    btn.textContent = 'A enviar...';
+    btn.disabled = true;
+
+    const res = await fetch('/api/recuperar-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    }).then(r => r.json());
+
+    msg.style.display = 'block';
+    if (res.sucesso) {
+        msg.style.background = '#d1fae5';
+        msg.style.color = '#065f46';
+        msg.textContent = 'Email enviado! Verifica a tua caixa de entrada.';
+    } else {
+        msg.style.background = '#fee2e2';
+        msg.style.color = '#991b1b';
+        msg.textContent = res.erro || 'Erro ao enviar email.';
+    }
+
+    btn.textContent = '📧 Enviar Nova Password';
+    btn.disabled = false;
+}
+</script>
+
+</body>
+</html>

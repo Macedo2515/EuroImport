@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador — Euroimport Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+        header { background: #1a1a2e; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        header img { height: 40px; }
+        .user-info { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+        .badge { background: #c8a96e; color: #1a1a2e; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+        header a { color: #ff6b6b; text-decoration: none; font-weight: 600; }
+        .page { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+        h2 { font-size: 20px; margin-bottom: 20px; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .proposta-box { border: 1px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 12px; background: #fafafa; }
+        .proposta-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; align-items: center; }
+        .estado-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .estado-proposta_criada { background: #ede9fe; color: #5b21b6; }
+        .estado-aguardando_decisao_direcao { background: #fef3c7; color: #92400e; }
+        .estado-renegociacao { background: #fee2e2; color: #991b1b; }
+        .estado-pendente { background: #fef3c7; color: #92400e; }
+        .btn { padding: 9px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .btn-success { background: #4CAF50; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-primary { background: #1a1a2e; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-block { width: 100%; padding: 12px; font-size: 14px; border-radius: 8px; margin-bottom: 8px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; }
+        .form-group textarea { height: 70px; resize: vertical; }
+        .actions { display: flex; gap: 8px; margin-top: 12px; }
+        #msg { display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: 500; font-size: 14px; }
+        .msg-ok { background: #d4edda; color: #155724; }
+        .msg-err { background: #f8d7da; color: #721c24; }
+        .empty { color: #aaa; font-size: 14px; text-align: center; padding: 20px; }
+        .doc-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #f0f0f0; border-radius: 6px; font-size: 13px; margin-bottom: 4px; }
+        .doc-item a { color: #1a1a2e; text-decoration: none; font-weight: 500; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .dot-green { background: #4CAF50; }
+        .dot-orange { background: #f39c12; }
+        .veiculo-img { width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+        .veiculo-info { font-size: 13px; color: #555; margin-bottom: 4px; }
+        .secao-titulo { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #eee; color: #1a1a2e; }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/IMG/Logo.png" alt="Euroimport">
+    <div class="user-info">
+        <span>👤 <strong id="header-nome"></strong></span>
+        <span class="badge">Administrador</span>
+        <a href="/logout">Sair</a>
+    </div>
+</header>
+
+<div class="page">
+    <div id="msg"></div>
+    <h2>🛡️ Administração</h2>
+
+    <!-- VEÍCULOS PENDENTES -->
+    <div class="card">
+        <h3>🚗 Veículos Pendentes de Aprovação</h3>
+        <div id="lista-veiculos-pendentes"><p class="empty">A carregar...</p></div>
+    </div>
+
+    <!-- PROPOSTAS DE NEGÓCIOS -->
+    <div id="lista-propostas"><p class="empty">A carregar...</p></div>
+</div>
+
+<script>
+function mostrarMsg(txt, erro = false) {
+    const el = document.getElementById('msg');
+    el.className = erro ? 'msg-err' : 'msg-ok';
+    el.textContent = txt;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 3000);
+}
+
+async function carregar() {
+    const me = await fetch('/api/me').then(r => r.json());
+    if (!me.logado) { window.location.href = '/login'; return; }
+    document.getElementById('header-nome').textContent = me.nome;
+
+    await carregarVeiculosPendentes();
+    await carregarPropostas();
+}
+
+async function carregarVeiculosPendentes() {
+    const div = document.getElementById('lista-veiculos-pendentes');
+    const veiculos = await fetch('/api/inventario/pendentes').then(r => r.json());
+
+    if (!veiculos.length) {
+        div.innerHTML = '<p class="empty">Sem veículos pendentes.</p>';
+        return;
+    }
+
+    div.innerHTML = veiculos.map(v => `
+        <div class="proposta-box">
+            ${v.foto ? `<img src="/uploads/${v.foto}" class="veiculo-img" alt="${v.veiculo}">` : ''}
+            <div class="proposta-row">
+                <span style="font-weight:700;font-size:15px;">${v.veiculo}</span>
+                <span class="estado-badge estado-pendente">Pendente</span>
+            </div>
+            <div class="veiculo-info">💰 Preço: <strong>€${Number(v.preco).toLocaleString('pt-PT')}</strong></div>
+            ${v.km ? `<div class="veiculo-info">🛣️ Km: <strong>${v.km}</strong></div>` : ''}
+            ${v.cv ? `<div class="veiculo-info">⚡ Potência: <strong>${v.cv}</strong></div>` : ''}
+            <div class="veiculo-info">👷 Submetido por: <strong>${v.funcionario_nome || '—'}</strong></div>
+            <div class="actions" style="margin-top:12px;">
+                <button class="btn btn-success" onclick="enviarVeiculoDirecao(${v.id})">📤 Enviar para Direção</button>
+                <button class="btn btn-danger" onclick="rejeitarVeiculo(${v.id})">✖ Rejeitar</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function enviarVeiculoDirecao(id) {
+    const res = await fetch(`/api/inventario/${id}/estado`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'aguardando_direcao' })
+    }).then(r => r.json());
+    if (res.sucesso) { mostrarMsg('Veículo enviado para aprovação da Direção!'); carregar(); }
+    else mostrarMsg('Erro: ' + res.erro, true);
+}
+
+async function rejeitarVeiculo(id) {
+    const res = await fetch(`/api/inventario/${id}/estado`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'rejeitado' })
+    }).then(r => r.json());
+    if (res.sucesso) { mostrarMsg('Veículo rejeitado.'); carregar(); }
+    else mostrarMsg('Erro: ' + res.erro, true);
+}
+
+async function carregarPropostas() {
+    const negocios = await fetch('/api/negocios').then(r => r.json());
+    const pendentes = negocios.filter(n => ['proposta_criada', 'renegociacao'].includes(n.estado));
+    const div = document.getElementById('lista-propostas');
+
+    if (pendentes.length === 0) {
+        div.innerHTML = '<div class="card"><p class="empty">Sem propostas pendentes.</p></div>';
+        return;
+    }
+
+    div.innerHTML = await Promise.all(pendentes.map(async n => {
+        const docs = await fetch(`/api/documentos/${n.id}`).then(r => r.json());
+        const docsHtml = docs.length === 0
+            ? '<p style="color:#aaa;font-size:13px;">Sem documentos.</p>'
+            : docs.map(d => `<div class="doc-item">📄 <a href="/uploads/${d.caminho}" target="_blank">${d.nome}</a></div>`).join('');
+
+        return `
+            <div class="card">
+                <h3>🚗 Proposta de Aquisição</h3>
+                <div class="proposta-box">
+                    <div class="proposta-row">
+                        <span style="font-weight:700;">#${n.codigo}</span>
+                        <span class="estado-badge estado-${n.estado}">${n.estado === 'renegociacao' ? 'Em Renegociação' : 'Aguardando Decisão'}</span>
+                    </div>
+                    <div class="proposta-row">
+                        <span>Veículo: <strong>${n.veiculo}</strong></span>
+                        <span>Cliente: <strong>${n.cliente_nome}</strong></span>
+                        <span class="dot dot-orange"></span>
+                    </div>
+                    ${n.motivo_renegociacao ? `<div style="font-size:13px;color:#991b1b;margin-top:8px;padding:8px;background:#fee2e2;border-radius:6px;">⚠️ Motivo renegociação: ${n.motivo_renegociacao}</div>` : ''}
+                </div>
+                <div style="margin-bottom:16px;">
+                    <strong style="font-size:13px;">📄 Documentos do Cliente:</strong>
+                    <div style="margin-top:8px;">${docsHtml}</div>
+                </div>
+                <div class="form-group">
+                    <label>💰 Preço Total (€)</label>
+                    <input type="number" id="preco-${n.id}" placeholder="Ex: 45000" value="${n.preco || ''}">
+                </div>
+                <div class="form-group">
+                    <label>💳 Valor do Sinal (€)</label>
+                    <input type="number" id="sinal-${n.id}" placeholder="Ex: 5000" value="${n.preco_sinal || ''}">
+                </div>
+                <div class="form-group">
+                    <label>✏️ Comentário</label>
+                    <textarea id="comentario-${n.id}" placeholder="Adiciona um comentário...">${n.comentario || ''}</textarea>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-success" onclick="enviarParaDirecao(${n.id})">📤 Enviar para Direção</button>
+                    <button class="btn btn-danger" onclick="rejeitar(${n.id})">✖ Rejeitar</button>
+                </div>
+            </div>`;
+    })).then(arr => arr.join(''));
+}
+
+async function enviarParaDirecao(id) {
+    const preco = document.getElementById('preco-' + id).value;
+    const preco_sinal = document.getElementById('sinal-' + id).value;
+    const comentario = document.getElementById('comentario-' + id).value;
+    if (!preco) { mostrarMsg('Define um preço antes de enviar!', true); return; }
+    await fetch(`/api/negocios/${id}/estado`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'aguardando_decisao_direcao', preco, preco_sinal, comentario })
+    });
+    mostrarMsg('Proposta enviada para a Direção!');
+    carregar();
+}
+
+async function rejeitar(id) {
+    const comentario = document.getElementById('comentario-' + id).value;
+    await fetch(`/api/negocios/${id}/estado`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'cancelado', comentario })
+    });
+    mostrarMsg('Proposta rejeitada.');
+    carregar();
+}
+
+carregar();
+</script>
+</body>
+</html>

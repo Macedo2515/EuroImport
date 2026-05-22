@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Funcionário — Euroimport Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+        header { background: #1a1a2e; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        header img { height: 40px; }
+        .user-info { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+        .badge { background: #c8a96e; color: #1a1a2e; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+        header a { color: #ff6b6b; text-decoration: none; font-weight: 600; }
+        .page { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+        h2 { font-size: 20px; margin-bottom: 20px; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 10px 12px; background: #f8f9fa; color: #666; font-weight: 600; border-bottom: 2px solid #eee; }
+        td { padding: 12px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        .estado-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .estado-submetido { background: #e2e8f0; color: #4a5568; }
+        .estado-documentos_solicitados { background: #fef3c7; color: #92400e; }
+        .estado-documentos_recebidos { background: #dbeafe; color: #1e40af; }
+        .estado-proposta_criada { background: #ede9fe; color: #5b21b6; }
+        .estado-aguardando_decisao_direcao { background: #fef3c7; color: #92400e; }
+        .estado-proposta_enviada { background: #d1fae5; color: #065f46; }
+        .estado-proposta_aceite { background: #d1fae5; color: #065f46; }
+        .estado-pagamento_sinal { background: #dbeafe; color: #1e40af; }
+        .estado-em_importacao { background: #ede9fe; color: #5b21b6; }
+        .estado-pagamento_final { background: #d1fae5; color: #065f46; }
+        .estado-concluido { background: #d1fae5; color: #065f46; }
+        .estado-cancelado { background: #fee2e2; color: #991b1b; }
+        .btn { padding: 7px 14px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
+        .btn-primary { background: #1a1a2e; color: white; }
+        .btn-success { background: #4CAF50; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-info { background: #3498db; color: white; }
+        .btn-block { width: 100%; padding: 12px; font-size: 14px; margin-top: 12px; border-radius: 8px; }
+        .notif-item { display: flex; justify-content: space-between; padding: 10px 12px; background: #f8f9fa; border-radius: 8px; font-size: 14px; margin-bottom: 8px; }
+        .tempo { font-size: 12px; color: #aaa; }
+        #msg { display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: 500; font-size: 14px; background: #d4edda; color: #155724; }
+        .empty { color: #aaa; font-size: 14px; text-align: center; padding: 20px; }
+        .doc-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #f8f9fa; border-radius: 6px; font-size: 13px; margin-bottom: 4px; }
+        .doc-item a { color: #1a1a2e; text-decoration: none; font-weight: 500; }
+        .doc-item a:hover { text-decoration: underline; }
+
+        /* Formulário Adicionar Veículo */
+        .form-veiculo { background: #0b1c3f; border-radius: 12px; padding: 32px; margin-bottom: 24px; color: white; }
+        .form-veiculo h3 { font-size: 18px; font-weight: 700; margin-bottom: 24px; text-align: center; color: white; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 12px; }
+        .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .form-field label { display: block; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-weight: 500; }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%;
+            background: #132850;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: white;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+        .form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,0.3); }
+        .form-field select option { background: #0b1c3f; color: white; }
+        .form-field textarea { min-height: 80px; resize: vertical; }
+        .btn-publicar {
+            float: right;
+            background: #c8a96e;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-publicar:hover { background: #b8995e; }
+        .btn-toggle { background: #c8a96e; color: #1a1a2e; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/IMG/Logo.png" alt="Euroimport">
+    <div class="user-info">
+        <span>👤 <strong id="header-nome"></strong></span>
+        <span class="badge">Funcionário</span>
+        <a href="/logout">Sair</a>
+    </div>
+</header>
+
+<div class="page">
+    <div id="msg"></div>
+    <h2>👷 Funcionário</h2>
+
+    <!-- ADICIONAR VEÍCULO/Ver Catálogo -->
+    <button class="btn-toggle" onclick="toggleFormVeiculo()">🚗 Adicionar Veículo ao Catálogo</button>
+    <a href="/Pages/veiculos.html" class="btn-toggle" style="margin-left:10px; text-decoration:none;">📋 Ver Catálogo</a>
+
+    <div id="form-veiculo-wrap" style="display:none;">
+        <div class="form-veiculo">
+            <h3>Adicionar Veículo</h3>
+
+            <div class="form-grid-3">
+                <div class="form-field">
+                    <label>Marca</label>
+                    <input type="text" id="v-marca" placeholder="Ex: Porsche">
+                </div>
+                <div class="form-field">
+                    <label>Modelo</label>
+                    <input type="text" id="v-modelo" placeholder="Ex: 911 GTS">
+                </div>
+                <div class="form-field">
+                    <label>Versão</label>
+                    <input type="text" id="v-versao" placeholder="Ex: (992)">
+                </div>
+            </div>
+
+            <div class="form-grid-3">
+                <div class="form-field">
+                    <label>Ano</label>
+                    <select id="v-ano"></select>
+                </div>
+                <div class="form-field">
+                    <label>Quilómetros</label>
+                    <input type="text" id="v-km" placeholder="Ex: 5.200 km ou NOVO">
+                </div>
+                <div class="form-field">
+                    <label>Potência (cv)</label>
+                    <input type="text" id="v-cv" placeholder="Ex: 510 cv">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-field">
+                    <label>Preço (€)</label>
+                    <input type="number" id="v-preco" placeholder="Ex: 234900">
+                </div>
+                <div class="form-field">
+                    <label>Cor</label>
+                    <select id="v-cor">
+                        <option>Preto</option>
+                        <option>Branco</option>
+                        <option>Cinzento</option>
+                        <option>Azul</option>
+                        <option>Vermelho</option>
+                        <option>Verde</option>
+                        <option>Castanho</option>
+                        <option>Amarelo</option>
+                        <option>Laranja</option>
+                        <option>Outro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label>Foto do Veículo</label>
+                <input type="file" id="v-foto" accept="image/*" style="cursor:pointer;">
+                <div id="foto-preview" style="margin-top:10px;display:none;">
+                    <img id="foto-img" src="" style="max-width:100%;max-height:180px;border-radius:8px;border:2px solid rgba(255,255,255,0.2);">
+                </div>
+            </div>
+
+            <div class="form-field" style="margin-bottom:16px;">
+                <label>Descrição Veículo</label>
+                <textarea id="v-descricao" placeholder="Descrição do veículo..."></textarea>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-field">
+                    <label>Especificações Gerais</label>
+                    <textarea id="v-especificacoes" placeholder="Motor, potência, transmissão..."></textarea>
+                </div>
+                <div class="form-field">
+                    <label>Informação Adicional</label>
+                    <textarea id="v-info-adicional" placeholder="Extras, garantia, histórico..."></textarea>
+                </div>
+            </div>
+
+            <button class="btn-publicar" onclick="publicarCarro()">Publicar Carro</button>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+
+    <!-- INVENTÁRIO / NEGÓCIOS -->
+    <div class="card">
+        <h3>🚗 Consultar Inventário</h3>
+        <table>
+            <thead><tr><th>Processo</th><th>Veículo</th><th>Cliente</th><th>Estado</th><th>Ações</th></tr></thead>
+            <tbody id="tabela-negocios"><tr><td colspan="5" class="empty">A carregar...</td></tr></tbody>
+        </table>
+    </div>
+
+    <div id="detalhe-negocio"></div>
+
+    <div class="card">
+        <h3>🔔 Notificações</h3>
+        <div id="lista-notificacoes"><p class="empty">Sem notificações.</p></div>
+    </div>
+</div>
+
+<script>
+const estadoLabels = {
+    submetido: 'Submetido', documentos_solicitados: 'Docs Solicitados',
+    documentos_recebidos: 'Docs Recebidos', proposta_criada: 'Proposta Criada',
+    aguardando_decisao_direcao: 'Ag. Direção', renegociacao: 'Renegociação',
+    proposta_enviada: 'Proposta Enviada', proposta_aceite: 'Proposta Aceite',
+    pagamento_sinal: 'Sinal Pago', em_importacao: 'Em Importação',
+    pagamento_final: 'Pag. Final', concluido: 'Concluído', cancelado: 'Cancelado'
+};
+
+function tempoRelativo(data) {
+    const diff = (Date.now() - new Date(data)) / 1000 / 3600;
+    if (diff < 1) return 'Agora mesmo';
+    if (diff < 24) return `Há ${Math.floor(diff)}h`;
+    return `Há ${Math.floor(diff/24)} dias`;
+}
+
+function mostrarMsg(txt, erro = false) {
+    const el = document.getElementById('msg');
+    el.textContent = txt;
+    el.style.background = erro ? '#f8d7da' : '#d4edda';
+    el.style.color = erro ? '#721c24' : '#155724';
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function toggleFormVeiculo() {
+    const wrap = document.getElementById('form-veiculo-wrap');
+    wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+}
+
+async function publicarCarro() {
+    const marca = document.getElementById('v-marca').value.trim();
+    const modelo = document.getElementById('v-modelo').value.trim();
+    const versao = document.getElementById('v-versao').value.trim();
+    const preco = document.getElementById('v-preco').value;
+    const foto = document.getElementById('v-foto').files[0];
+
+    if (!marca || !modelo || !preco) {
+        mostrarMsg('Preenche pelo menos a marca, modelo e preço!', true);
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('veiculo', `${marca} ${modelo} ${versao}`.trim());
+    formData.append('preco', preco);
+    formData.append('km', document.getElementById('v-km').value.trim());
+    formData.append('cv', document.getElementById('v-cv').value.trim());
+    formData.append('ano', document.getElementById('v-ano').value);
+    formData.append('stock', 'disponivel');
+    if (foto) formData.append('foto', foto);
+
+    const res = await fetch('/api/inventario', {
+        method: 'POST',
+        body: formData
+    }).then(r => r.json());
+
+    if (res.sucesso) {
+        mostrarMsg('Veículo adicionado ao catálogo com sucesso! ✅');
+        ['v-marca','v-modelo','v-versao','v-preco','v-km','v-cv','v-descricao','v-especificacoes','v-info-adicional'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        document.getElementById('v-foto').value = '';
+        document.getElementById('foto-preview').style.display = 'none';
+        document.getElementById('form-veiculo-wrap').style.display = 'none';
+    } else {
+        mostrarMsg('Erro ao adicionar veículo: ' + (res.erro || 'Erro desconhecido'), true);
+    }
+}
+
+// Preview da foto
+document.getElementById('v-foto').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('foto-img').src = e.target.result;
+            document.getElementById('foto-preview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Preencher anos
+const selectAno = document.getElementById('v-ano');
+const anoAtual = new Date().getFullYear();
+for (let i = 0; i <= 20; i++) {
+    const option = document.createElement('option');
+    option.value = anoAtual - i;
+    option.textContent = anoAtual - i;
+    selectAno.appendChild(option);
+}
+
+let negocioSelecionado = null;
+
+async function carregar() {
+    const me = await fetch('/api/me').then(r => r.json());
+    if (!me.logado) { window.location.href = '/login'; return; }
+    document.getElementById('header-nome').textContent = me.nome;
+
+    const negocios = await fetch('/api/negocios').then(r => r.json());
+    const ativos = negocios.filter(n => n.estado !== 'cancelado');
+
+    const tbody = document.getElementById('tabela-negocios');
+    if (ativos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty">Sem negócios em curso</td></tr>';
+    } else {
+        tbody.innerHTML = ativos.map(n => `
+            <tr>
+                <td><strong>${n.codigo}</strong></td>
+                <td>${n.veiculo || '—'}</td>
+                <td>${n.cliente_nome}</td>
+                <td><span class="estado-badge estado-${n.estado}">${estadoLabels[n.estado]}</span></td>
+                <td><button class="btn btn-primary" onclick="verDetalhe(${n.id})">Ver Detalhes</button></td>
+            </tr>
+        `).join('');
+    }
+
+    if (negocioSelecionado) {
+        const n = negocios.find(x => x.id === negocioSelecionado);
+        if (n) mostrarDetalhe(n);
+    }
+
+    const notifs = await fetch('/api/notificacoes').then(r => r.json());
+    const listaN = document.getElementById('lista-notificacoes');
+    listaN.innerHTML = notifs.length === 0 ? '<p class="empty">Sem notificações.</p>'
+        : notifs.map(n => `
+            <div class="notif-item">
+                <span>☰ ${n.mensagem}</span>
+                <span class="tempo">${tempoRelativo(n.data_criacao)}</span>
+            </div>`).join('');
+}
+
+async function verDetalhe(id) {
+    negocioSelecionado = id;
+    const negocios = await fetch('/api/negocios').then(r => r.json());
+    const n = negocios.find(x => x.id === id);
+    if (n) mostrarDetalhe(n);
+}
+
+async function mostrarDetalhe(n) {
+    const docs = await fetch(`/api/documentos/${n.id}`).then(r => r.json());
+    const docsHtml = docs.length === 0
+        ? '<p style="color:#aaa;font-size:13px;">Sem documentos enviados.</p>'
+        : docs.map(d => `<div class="doc-item">📄 <a href="/uploads/${d.caminho}" target="_blank">${d.nome}</a></div>`).join('');
+
+    let acoes = '';
+    if (n.estado === 'submetido') acoes = `<button class="btn btn-warning btn-block" onclick="atualizarEstado(${n.id}, 'documentos_solicitados')">📋 Solicitar Documentos ao Cliente</button>`;
+    if (n.estado === 'documentos_recebidos') acoes = `<div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-success" onclick="validarDocs(${n.id})">✔ Documentos Válidos — Notificar</button><button class="btn btn-danger" onclick="atualizarEstado(${n.id}, 'documentos_solicitados')">✖ Solicitar Reenvio</button></div>`;
+    if (n.estado === 'proposta_enviada') acoes = `<p style="font-size:13px;color:#065f46;margin-top:12px;">⏳ A aguardar resposta do cliente à proposta.</p>`;
+    if (n.estado === 'pagamento_sinal') acoes = `<button class="btn btn-info btn-block" onclick="iniciarImportacao(${n.id})">🚗 Iniciar Processo de Importação</button>`;
+    if (n.estado === 'em_importacao') acoes = `<button class="btn btn-success btn-block" onclick="finalizarImportacao(${n.id})">✔ Finalizar Importação</button>`;
+    if (n.estado === 'pagamento_final') acoes = `<button class="btn btn-primary btn-block" onclick="entregarCarro(${n.id})">🏁 Entregar Carro ao Cliente</button>`;
+
+    document.getElementById('detalhe-negocio').innerHTML = `
+        <div class="card">
+            <h3>🔍 Detalhe — ${n.codigo}</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <div>
+                    <div style="font-weight:600;font-size:15px;">${n.veiculo || '—'}</div>
+                    <div style="font-size:13px;color:#888;">Cliente: ${n.cliente_nome}</div>
+                </div>
+                <span class="estado-badge estado-${n.estado}">${estadoLabels[n.estado]}</span>
+            </div>
+            ${n.preco ? `<div style="font-size:14px;margin-bottom:8px;">💰 Preço: <strong>${Number(n.preco).toLocaleString('pt-PT')}€</strong></div>` : ''}
+            ${n.preco_sinal ? `<div style="font-size:14px;margin-bottom:8px;">💳 Sinal: <strong>${Number(n.preco_sinal).toLocaleString('pt-PT')}€</strong></div>` : ''}
+            ${n.comentario ? `<div style="font-size:13px;background:#f8f9fa;padding:10px;border-radius:6px;margin-bottom:12px;">${n.comentario}</div>` : ''}
+            <div style="margin-bottom:12px;"><strong style="font-size:13px;">📄 Documentos:</strong><div style="margin-top:8px;">${docsHtml}</div></div>
+            ${acoes}
+        </div>`;
+}
+
+async function atualizarEstado(id, estado) {
+    await fetch(`/api/negocios/${id}/estado`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ estado }) });
+    mostrarMsg('Estado atualizado!');
+    carregar();
+}
+
+async function validarDocs(id) {
+    await fetch(`/api/negocios/${id}/estado`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ estado: 'proposta_criada', documentos_validados: 1 }) });
+    mostrarMsg('Documentos validados! Administrador notificado.');
+    carregar();
+}
+
+async function iniciarImportacao(id) { await atualizarEstado(id, 'em_importacao'); }
+async function finalizarImportacao(id) { await atualizarEstado(id, 'pagamento_final'); mostrarMsg('Importação finalizada! A aguardar pagamento final.'); }
+async function entregarCarro(id) { await atualizarEstado(id, 'concluido'); mostrarMsg('Carro entregue! Processo concluído.'); }
+
+carregar();
+</script>
+</body>
+</html>

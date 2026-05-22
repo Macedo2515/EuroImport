@@ -1,0 +1,264 @@
+/* Classes utilitárias */
+.text-center { text-align: center; }
+
+.box-shadow {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+}
+
+/* Títulos das secções */
+.page-title, .section-title {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+.page-subtitle, .section-subtitle {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    margin-bottom: 50px;
+}
+
+/* =========================================================
+   SECÇÃO: HERO & CARTÕES DE SERVIÇOS
+   ========================================================= */
+.services-hero {
+    background-color: var(--bg-light);
+    padding: 80px 0 160px;
+}
+
+.services-cards-section {
+    margin-top: -100px;
+    margin-bottom: 80px;
+}
+
+.cards-wrapper {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.service-card {
+    flex: 1;
+    padding: 50px 40px;
+    text-align: center;
+}
+
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #eef2f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.service-card h3 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.service-desc {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.service-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.service-list li {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.service-list li i {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* =========================================================
+   SECÇÃO: SIMULADOR DE CUSTOS
+   ========================================================= */
+.simulator-section {
+    padding: 60px 0 80px;
+}
+
+.simulator-box {
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.input-group input,
+.input-group select {
+    padding: 14px 15px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    background-color: #fafafa;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: #ffffff;
+}
+
+.submit-row {
+    text-align: left;
+}
+
+/* Resultado ISV */
+#resultado-isv {
+    display: none;
+    margin-top: 30px;
+    padding: 28px;
+    background: #f0f4ff;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    text-align: left;
+}
+
+#resultado-isv.visivel {
+    display: block;
+}
+
+#resultado-isv h3 {
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+#resultado-isv .isv-valor {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+#resultado-isv .isv-aviso {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+#resultado-isv .btn-proposta {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+}
+
+#resultado-isv .btn-proposta:hover {
+    background: #2d2d50;
+}
+
+/* =========================================================
+   SECÇÃO: FAQ
+   ========================================================= */
+.faq-section {
+    padding: 60px 0 80px;
+}
+
+.faq-wrapper {
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.faq-item {
+    text-align: left;
+    padding: 25px 0;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-item h4 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+}
+
+.faq-item p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   SECÇÃO: CTA FINAL
+   ========================================================= */
+.cta-bottom {
+    background-color: var(--bg-light);
+    padding: 100px 0;
+}
+
+.btn-simulator {
+    padding: 14px 25px;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+@media (max-width: 992px) {
+    .cards-wrapper { flex-direction: column; }
+    .services-cards-section { margin-top: 40px; }
+    .services-hero { padding: 60px 0; }
+}
+
+@media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .page-title { font-size: 2rem; }
+    .page-subtitle { font-size: 0.95rem; }
+}

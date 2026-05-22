@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedir Proposta — Euroimport Motors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <style>
+        body { background: #f4f5f7; color: #142d58; }
+
+        .proposta-hero {
+            background: #ececef;
+            text-align: center;
+            padding: 72px 0;
+        }
+        .proposta-hero h1 {
+            font-family: var(--font-heading);
+            font-size: 56px;
+            color: #132c57;
+            margin-bottom: 10px;
+        }
+        .proposta-hero p {
+            color: #5d6f8f;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .proposta-wrap {
+            padding: 60px 0 80px;
+        }
+
+        .proposta-card {
+            background: #fff;
+            border: 1px solid #e4e9f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(22, 45, 86, 0.07);
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 50px 60px;
+        }
+
+        .proposta-section-title {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            color: #0b1c3f;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid-full {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #243b67;
+            letter-spacing: 0.03em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            border: 1px solid #dde3ec;
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 15px;
+            color: #20365f;
+            font-family: var(--font-body);
+            outline: none;
+            background: #f9fafc;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #0b1c3f;
+            background: #fff;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #a1acbf;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .proposta-divider {
+            margin: 32px 0 24px;
+        }
+
+        .btn-proposta {
+            width: 100%;
+            padding: 16px;
+            background: #0b1c3f;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-proposta:hover { background: #081530; }
+        .btn-proposta:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .confidencial {
+            text-align: center;
+            font-size: 13px;
+            color: #8a97b0;
+            margin-top: 14px;
+        }
+
+        .msg-erro {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .success-card {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            border: 4px solid #0b1c3f;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            color: #0b1c3f;
+            font-weight: 700;
+        }
+        .success-card h3 {
+            font-family: var(--font-heading);
+            color: #132c57;
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+        .success-card p {
+            color: #5f6f89;
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 20px;
+        }
+        .badge-success {
+            display: inline-block;
+            background: #2ed26f;
+            color: #fff;
+            border-radius: 999px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .btn-home {
+            display: inline-block;
+            background: #0b1c3f;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px 24px;
+            text-decoration: none;
+        }
+        .hidden { display: none; }
+
+        @media (max-width: 768px) {
+            .proposta-card { padding: 30px 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .proposta-hero h1 { font-size: 38px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="../IMG/Logo.png" alt="Logótipo Euroimport Motors">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                    <li><a href="servicos.html">SERVIÇOS</a></li>
+                    <li><a href="veiculos.html">VEÍCULOS</a></li>
+                    <li><a href="sobre.html">SOBRE NÓS</a></li>
+                    <li><a href="contactos.html">CONTACTOS</a></li>
+                    <li id="nav-auth"><a href="login.html">ENTRAR / REGISTAR</a></li>
+                </ul>
+            </nav>
+            <a href="proposta.html" class="btn btn-primary">Pedir Proposta</a>
+        </div>
+    </header>
+
+    <section class="proposta-hero">
+        <div class="container">
+            <h1>Pedir Proposta</h1>
+            <p>Preencha o formulário e um dos nossos especialistas entrará em contacto em menos de 24h.</p>
+        </div>
+    </section>
+
+    <section class="proposta-wrap">
+        <div class="container">
+            <div class="proposta-card">
+
+                <div id="form-view">
+                    <div id="msg-erro" class="msg-erro hidden"></div>
+
+                    <div class="proposta-section-title">Sobre a Viatura</div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <input type="text" id="marca" placeholder="Ex: Porsche">
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">Modelo</label>
+                            <input type="text" id="modelo" placeholder="Ex: 911 Carrera S">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="ano">Ano Mínimo</label>
+                            <input type="number" id="ano" placeholder="Ex: 2021">
+                        </div>
+                        <div class="form-group">
+                            <label for="orcamento">Orçamento Disponível (€)</label>
+                            <input type="text" id="orcamento" placeholder="Ex: 80.000€">
+                        </div>
+                    </div>
+
+                    <div class="proposta-divider">
+                        <div class="proposta-section-title">Os Seus Dados</div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" placeholder="O seu nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" placeholder="email@exemplo.pt" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-full">
+                        <div class="form-group">
+                            <label for="observacoes">Observações Extra</label>
+                            <textarea id="observacoes" placeholder="Ex: Cor preferida, extras indispensáveis..."></textarea>
+                        </div>
+                    </div>
+
+                    <button class="btn-proposta" onclick="enviarProposta()">Pedir Proposta Grátis</button>
+                    <p class="confidencial">Garantimos a total confidencialidade dos seus dados.</p>
+                </div>
+
+                <div id="success-view" class="success-card hidden">
+                    <div class="success-icon">✓</div>
+                    <h3>Proposta Enviada!</h3>
+                    <p>Recebemos o seu pedido. Um especialista da Euroimport Motors irá contactá-lo brevemente com uma proposta personalizada.</p>
+                    <span class="badge-success">Resposta garantida em menos de 24h</span><br><br>
+                    <a href="../index.html" class="btn-home">Voltar à Página Inicial</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="../IMG/Logo_rodape.png" alt="Logótipo Euroimport Motors" class="logo-footer">
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+            </ul>
+            <div class="footer-socials">
+                <a href="#" target="_blank"><img src="../IMG/insta.png" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="../IMG/face.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="../IMG/whats.png" alt="WhatsApp"></a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+fetch('/api/me')
+  .then(res => res.json())
+  .then(user => {
+    const navAuth = document.getElementById('nav-auth');
+    if (user.logado) {
+      navAuth.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-weight:600;">👤 ${user.nome}</span>
+          <a href="/logout" style="color:red; font-weight:600;">Sair</a>
+        </div>`;
+    }
+  });
+
+async function enviarProposta() {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const marca = document.getElementById('marca').value.trim();
+    const modelo = document.getElementById('modelo').value.trim();
+    const ano = document.getElementById('ano').value.trim();
+    const orcamento = document.getElementById('orcamento').value.trim();
+    const observacoes = document.getElementById('observacoes').value.trim();
+    const msgErro = document.getElementById('msg-erro');
+    const btn = document.querySelector('.btn-proposta');
+
+    if (!nome || !email) {
+        msgErro.textContent = 'Por favor preenche o Nome e Email.';
+        msgErro.classList.remove('hidden');
+        return;
+    }
+
+    msgErro.classList.add('hidden');
+    btn.textContent = 'A enviar...';
+    btn.disabled = true;
+
+    const res = await fetch('/api/proposta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, marca, modelo, ano, orcamento, observacoes })
+    }).then(r => r.json());
+
+    if (res.sucesso) {
+        document.getElementById('form-view').classList.add('hidden');
+        document.getElementById('success-view').classList.remove('hidden');
+    } else {
+        msgErro.textContent = res.erro || 'Erro ao enviar proposta. Tenta novamente.';
+        msgErro.classList.remove('hidden');
+        btn.textContent = 'Pedir Proposta Grátis';
+        btn.disabled = false;
+    }
+}
+</script>
+
+</body>
+</html>

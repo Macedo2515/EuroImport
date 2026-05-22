@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Direção — Euroimport Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+        header { background: #1a1a2e; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        header img { height: 40px; }
+        .user-info { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+        .badge { background: #c8a96e; color: #1a1a2e; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+        header a { color: #ff6b6b; text-decoration: none; font-weight: 600; }
+        .page { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+        h2 { font-size: 20px; margin-bottom: 20px; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .proposta-box { border: 1px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 12px; background: #fafafa; }
+        .proposta-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; align-items: center; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; width: 100%; margin-bottom: 8px; }
+        .btn-success { background: #4CAF50; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-primary { background: #1a1a2e; color: white; }
+        .form-group { margin-top: 12px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; }
+        .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; height: 80px; resize: vertical; font-family: inherit; }
+        .notif-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f8f9fa; border-radius: 8px; font-size: 14px; margin-bottom: 8px; }
+        .tempo { font-size: 12px; color: #aaa; }
+        #msg { display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: 500; font-size: 14px; background: #d4edda; color: #155724; }
+        .empty { color: #aaa; font-size: 14px; text-align: center; padding: 20px; }
+        .radio-group { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 8px; }
+        .veiculo-img { width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+        .veiculo-info { font-size: 13px; color: #555; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/IMG/Logo.png" alt="Euroimport">
+    <div class="user-info">
+        <span>👤 <strong id="header-nome"></strong></span>
+        <span class="badge">Direção</span>
+        <a href="/logout">Sair</a>
+    </div>
+</header>
+
+<div class="page">
+    <div id="msg"></div>
+    <h2>📊 Direção</h2>
+
+    <!-- VEÍCULOS AGUARDANDO APROVAÇÃO DA DIREÇÃO -->
+    <div class="card">
+        <h3>🚗 Veículos para Aprovação</h3>
+        <div id="lista-veiculos-direcao"><p class="empty">A carregar...</p></div>
+    </div>
+
+    <!-- PROPOSTAS DE NEGÓCIOS -->
+    <div id="lista-decisoes"></div>
+
+    <div class="card">
+        <h3>🔔 Notificações</h3>
+        <div id="lista-notificacoes"><p class="empty">Sem notificações.</p></div>
+    </div>
+</div>
+
+<script>
+function tempoRelativo(data) {
+    const diff = (Date.now() - new Date(data)) / 1000 / 3600;
+    if (diff < 1) return 'Agora mesmo';
+    if (diff < 24) return `Há ${Math.floor(diff)}h`;
+    return `Há ${Math.floor(diff/24)} dias`;
+}
+
+function mostrarMsg(txt) {
+    const el = document.getElementById('msg');
+    el.textContent = txt;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 3000);
+}
+
+async function carregar() {
+    const me = await fetch('/api/me').then(r => r.json());
+    if (!me.logado) { window.location.href = '/login'; return; }
+    document.getElementById('header-nome').textContent = me.nome;
+
+    await carregarVeiculosDirecao();
+    await carregarPropostas();
+    await carregarNotificacoes();
+}
+
+async function carregarVeiculosDirecao() {
+    const div = document.getElementById('lista-veiculos-direcao');
+    const veiculos = await fetch('/api/inventario/aguardando-direcao').then(r => r.json());
+
+    if (!veiculos.length) {
+        div.innerHTML = '<p class="empty">Sem veículos aguardando decisão.</p>';
+        return;
+    }
+
+    div.innerHTML = veiculos.map(v => `
+        <div class="proposta-box">
+            ${v.foto ? `<img src="/uploads/${v.foto}" class="veiculo-img" alt="${v.veiculo}">` : ''}
+            <div class="proposta-row">
+                <span style="font-weight:700;font-size:15px;">${v.veiculo}</span>
+            </div>
+            <div class="veiculo-info">💰 Preço: <strong>€${Number(v.preco).toLocaleString('pt-PT')}</strong></div>
+            ${v.km ? `<div class="veiculo-info">🛣️ Km: <strong>${v.km}</strong></div>` : ''}
+            ${v.cv ? `<div class="veiculo-info">⚡ Potência: <strong>${v.cv}</strong></div>` : ''}
+            <div class="veiculo-info">👷 Submetido por: <strong>${v.funcionario_nome || '—'}</strong></div>
+            <div style="margin-top:12px;">
+                <button class="btn btn-success" onclick="aprovarVeiculo(${v.id})">✔ Aprovar — Publicar no Catálogo</button>
+                <button class="btn btn-danger" onclick="rejeitarVeiculo(${v.id})">✖ Rejeitar</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function aprovarVeiculo(id) {
+    const res = await fetch(`/api/inventario/${id}/estado`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'aprovado' })
+    }).then(r => r.json());
+    if (res.sucesso) { mostrarMsg('Veículo aprovado e publicado no catálogo! ✅'); carregar(); }
+    else mostrarMsg('Erro: ' + res.erro);
+}
+
+async function rejeitarVeiculo(id) {
+    const res = await fetch(`/api/inventario/${id}/estado`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'rejeitado' })
+    }).then(r => r.json());
+    if (res.sucesso) { mostrarMsg('Veículo rejeitado.'); carregar(); }
+    else mostrarMsg('Erro: ' + res.erro);
+}
+
+async function carregarPropostas() {
+    const negocios = await fetch('/api/negocios').then(r => r.json());
+    const paraDecisao = negocios.filter(n => n.estado === 'aguardando_decisao_direcao');
+    const div = document.getElementById('lista-decisoes');
+
+    if (paraDecisao.length === 0) {
+        div.innerHTML = '<div class="card"><p class="empty">Sem propostas a aguardar decisão.</p></div>';
+    } else {
+        div.innerHTML = paraDecisao.map(n => `
+            <div class="card">
+                <h3>🚗 Decisão de Aprovação</h3>
+                <div class="proposta-box">
+                    <div class="proposta-row">
+                        <span>Proposta: <strong>#${n.codigo}</strong></span>
+                        <span>Cliente: <strong>${n.cliente_nome}</strong></span>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="r-${n.id}" checked>
+                        <label for="r-${n.id}">💰 Preço: <strong>${n.preco ? Number(n.preco).toLocaleString('pt-PT') + '€' : 'Não definido'}</strong></label>
+                    </div>
+                    ${n.preco_sinal ? `<div style="font-size:14px;margin-top:4px;">💳 Sinal: <strong>${Number(n.preco_sinal).toLocaleString('pt-PT')}€</strong></div>` : ''}
+                    ${n.comentario ? `<div style="font-size:13px;color:#555;margin-top:10px;padding:8px;background:#f0f0f0;border-radius:6px;">${n.comentario}</div>` : ''}
+                </div>
+                <button class="btn btn-success" onclick="aprovar(${n.id})">✔ Sim → Avançar Compra</button>
+                <button class="btn btn-danger" onclick="mostrarRenegociacao(${n.id})">✖ Não → Renegociar</button>
+                <button class="btn" style="background:#6c757d;color:white;" onclick="mostrarEncerrar(${n.id})">🚫 Encerrar Negócio</button>
+                <div id="form-renegociar-${n.id}" style="display:none;margin-top:12px;">
+                    <div class="form-group">
+                        <label>Motivo da renegociação:</label>
+                        <textarea id="motivo-reneg-${n.id}" placeholder="Indica o motivo..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="renegociar(${n.id})">📤 Enviar para Renegociação</button>
+                </div>
+                <div id="form-encerrar-${n.id}" style="display:none;margin-top:12px;">
+                    <div class="form-group">
+                        <label>Motivo do encerramento:</label>
+                        <textarea id="motivo-enc-${n.id}" placeholder="Indica o motivo..."></textarea>
+                    </div>
+                    <button class="btn btn-danger" onclick="encerrar(${n.id})">Confirmar Encerramento</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+async function carregarNotificacoes() {
+    const notifs = await fetch('/api/notificacoes').then(r => r.json());
+    const listaN = document.getElementById('lista-notificacoes');
+    listaN.innerHTML = notifs.length === 0
+        ? '<p class="empty">Sem notificações.</p>'
+        : notifs.map(n => `
+            <div class="notif-item">
+                <span>☰ ${n.mensagem}</span>
+                <span class="tempo">${tempoRelativo(n.data_criacao)}</span>
+            </div>`).join('');
+}
+
+async function aprovar(id) {
+    await fetch(`/api/negocios/${id}/estado`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'proposta_enviada' })
+    });
+    mostrarMsg('Aprovado! Proposta enviada ao cliente.');
+    carregar();
+}
+
+function mostrarRenegociacao(id) {
+    document.getElementById('form-renegociar-' + id).style.display = 'block';
+    document.getElementById('form-encerrar-' + id).style.display = 'none';
+}
+
+function mostrarEncerrar(id) {
+    document.getElementById('form-encerrar-' + id).style.display = 'block';
+    document.getElementById('form-renegociar-' + id).style.display = 'none';
+}
+
+async function renegociar(id) {
+    const motivo = document.getElementById('motivo-reneg-' + id).value;
+    await fetch(`/api/negocios/${id}/estado`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'renegociacao', motivo_renegociacao: motivo })
+    });
+    mostrarMsg('Enviado para renegociação!');
+    carregar();
+}
+
+async function encerrar(id) {
+    const motivo = document.getElementById('motivo-enc-' + id).value;
+    await fetch(`/api/negocios/${id}/estado`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'cancelado', motivo_rejeicao: motivo })
+    });
+    mostrarMsg('Negócio encerrado.');
+    carregar();
+}
+
+carregar();
+</script>
+</body>
+</html>

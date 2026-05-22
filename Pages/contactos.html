@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactos - Euroimport Motors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <style>
+        body { background: #f4f5f7; color: #142d58; }
+        .contactos-header { background: #fff; border-bottom: 1px solid #eaeaea; height: 85px; display: flex; align-items: center; }
+        .contactos-header .container { max-width: 1400px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .contactos-header .logo img { height: 160px; width: auto; margin-top: -40px; margin-bottom: -40px; }
+        .contactos-header nav ul { gap: 40px; }
+        .contactos-header nav a { font-size: 1rem; color: #0b1c3f; }
+        .hero { background: #ececef; text-align: center; padding: 72px 0; }
+        .hero .container { display: flex; flex-direction: column; align-items: center; }
+        .hero h1 { font-family: var(--font-heading); font-size: 56px; color: #132c57; margin-bottom: 10px; text-transform: none; }
+        .hero p { margin: 0; color: #5d6f8f; font-size: 16px; max-width: 700px; line-height: 1.6; }
+        .contact-wrap { padding: 58px 0 70px; }
+        .contact-wrap .container { max-width: 1180px; display: grid; grid-template-columns: 1fr 360px; gap: 42px; align-items: start; }
+        .left-panel h2 { font-family: var(--font-heading); font-size: 46px; color: #132c57; margin-bottom: 8px; text-transform: none; }
+        .left-panel .subtitle { color: #6b7890; margin-bottom: 26px; font-size: 15px; }
+        .contact-form label { display: block; font-size: 12px; letter-spacing: .04em; font-weight: 700; color: #243b67; margin: 15px 0 8px; }
+        .contact-form input, .contact-form textarea, .contact-form select { width: 100%; border: none; border-bottom: 1px solid #dde3ec; background: transparent; padding: 0 0 10px; font-size: 15px; color: #20365f; outline: none; font-family: var(--font-body); }
+        .contact-form textarea { min-height: 40px; resize: vertical; }
+        .contact-form input::placeholder, .contact-form textarea::placeholder { color: #a1acbf; }
+        .btn-send { margin-top: 28px; border: none; background: #0d2450; color: #fff; border-radius: 7px; font-weight: 700; font-size: 13px; padding: 12px 24px; cursor: pointer; }
+        .btn-send:disabled { opacity: 0.6; cursor: not-allowed; }
+        .right-panel h4 { color: #243b67; font-size: 13px; letter-spacing: .06em; font-weight: 800; margin-bottom: 12px; }
+        .whatsapp-btn { display: inline-flex; align-items: center; gap: 8px; background: #2ed26f; color: #fff; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px; }
+        .right-item { margin-top: 22px; }
+        .right-item .label { font-size: 12px; letter-spacing: .04em; font-weight: 800; color: #243b67; margin-bottom: 4px; }
+        .right-item .value { font-size: 34px; font-family: var(--font-heading); color: #1b355f; line-height: 1.2; }
+        .success-card { background: #fff; border: 1px solid #e4e9f0; border-radius: 12px; box-shadow: 0 4px 12px rgba(22, 45, 86, 0.08); max-width: 520px; text-align: center; padding: 34px 24px 28px; }
+        .success-icon { width: 68px; height: 68px; border: 4px solid #0d2450; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #0d2450; font-weight: 700; }
+        .success-card h3 { font-family: var(--font-heading); color: #132c57; font-size: 34px; margin-bottom: 6px; text-transform: none; }
+        .success-card h5 { color: #243b67; font-size: 18px; margin-bottom: 10px; text-transform: none; }
+        .success-card p { color: #5f6f89; font-size: 15px; line-height: 1.7; margin-bottom: 14px; }
+        .badge { display: inline-block; background: #2ed26f; color: #fff; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; margin-bottom: 16px; }
+        .btn-home { display: inline-block; background: #0d2450; color: #fff; border-radius: 7px; font-size: 13px; font-weight: 700; padding: 12px 18px; }
+        .hidden { display: none; }
+        .msg-erro { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 6px; font-size: 14px; margin-top: 12px; }
+        footer { margin-top: 0; }
+        @media (max-width: 992px) { .contact-wrap .container { grid-template-columns: 1fr; } .left-panel h2 { font-size: 36px; } .hero h1 { font-size: 42px; } .contactos-header { height: auto; padding: 0; } }
+    </style>
+</head>
+<body>
+    <header class="contactos-header">
+        <div class="container">
+            <div class="logo">
+                <img src="../IMG/Logo.png" alt="Logótipo Euroimport Motors">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                    <li><a href="servicos.html">SERVIÇOS</a></li>
+                    <li><a href="veiculos.html">VEÍCULOS</a></li>
+                    <li><a href="sobre.html">SOBRE NÓS</a></li>
+                    <li><a href="contactos.html">CONTACTOS</a></li>
+                    <li><a href="login.html">ENTRAR / REGISTAR</a></li>
+                </ul>
+            </nav>
+            <a href="proposta.html" class="btn btn-primary">Pedir Proposta</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Contactos</h1>
+            <p>Estamos aqui para o ajudar a encontrar a sua próxima máquina premium com transparência e rigor.</p>
+        </div>
+    </section>
+
+    <section class="contact-wrap">
+        <div class="container">
+            <div class="left-panel">
+                <div id="form-view">
+                    <h2>Envie-nos uma Mensagem</h2>
+                    <p class="subtitle">Preencha o formulário e entraremos em contacto em menos de 24h.</p>
+                    <form id="contact-form" class="contact-form">
+                        <label for="nome">NOME COMPLETO</label>
+                        <input id="nome" type="text" placeholder="Como devemos tratá-lo?" required>
+                        <label for="email">EMAIL PROFISSIONAL</label>
+                        <input id="email" type="email" placeholder="exemplo@email.com" required>
+                        <label for="telefone">TELEMÓVEL</label>
+                        <input id="telefone" type="tel" placeholder="+351 900 000 000" required>
+                        <label for="origem">COMO NOS CONHECEU?</label>
+                        <select id="origem" required>
+                            <option value="">Selecione uma opção</option>
+                            <option>Pesquisa Google</option>
+                            <option>Instagram</option>
+                            <option>Facebook</option>
+                            <option>Recomendação</option>
+                        </select>
+                        <label for="mensagem">MENSAGEM / PEDIDO</label>
+                        <textarea id="mensagem" placeholder="O que procura ou qual a sua dúvida?" required></textarea>
+                        <div id="msg-erro" class="msg-erro hidden"></div>
+                        <button class="btn-send" type="submit">Enviar Mensagem</button>
+                    </form>
+                </div>
+
+                <div id="success-view" class="success-card hidden">
+                    <div class="success-icon">✓</div>
+                    <h3>Mensagem Enviada com Sucesso!</h3>
+                    <h5>Obrigado pelo seu contacto.</h5>
+                    <p>Recebemos o seu pedido e um dos nossos especialistas irá responder-lhe brevemente para o seu e-mail com todas as informações necessárias.</p>
+                    <span class="badge">Resposta garantida em menos de 24h</span><br>
+                    <a href="../index.html" class="btn-home">Voltar à Página Inicial</a>
+                </div>
+            </div>
+
+            <aside class="right-panel">
+                <h4>FALE CONNOSCO AGORA</h4>
+                <a class="whatsapp-btn" href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer">🟢 Mensagem por WhatsApp</a>
+                <div class="right-item">
+                    <div class="label">EMAIL</div>
+                    <div class="value">euro.importof@gmail.com</div>
+                </div>
+                <div class="right-item">
+                    <div class="label">TELEFONE</div>
+                    <div class="value">+351 912 345 678</div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="../IMG/Logo_rodape.png" alt="Logótipo Euroimport Motors" class="logo-footer">
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+            </ul>
+            <div class="footer-socials">
+                <a href="#" target="_blank"><img src="../IMG/insta.png" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="../IMG/face.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="../IMG/whats.png" alt="WhatsApp"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        const formView = document.getElementById('form-view');
+        const successView = document.getElementById('success-view');
+        const msgErro = document.getElementById('msg-erro');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('.btn-send');
+            btn.textContent = 'A enviar...';
+            btn.disabled = true;
+            msgErro.classList.add('hidden');
+
+            const dados = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                origem: document.getElementById('origem').value,
+                mensagem: document.getElementById('mensagem').value
+            };
+
+            try {
+                const res = await fetch('/api/contacto', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                }).then(r => r.json());
+
+                if (res.sucesso) {
+                    formView.classList.add('hidden');
+                    successView.classList.remove('hidden');
+                } else {
+                    msgErro.textContent = res.erro || 'Erro ao enviar mensagem. Tenta novamente.';
+                    msgErro.classList.remove('hidden');
+                    btn.textContent = 'Enviar Mensagem';
+                    btn.disabled = false;
+                }
+            } catch {
+                msgErro.textContent = 'Erro de ligação. Tenta novamente.';
+                msgErro.classList.remove('hidden');
+                btn.textContent = 'Enviar Mensagem';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

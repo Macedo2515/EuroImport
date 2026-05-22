@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Euroimport Motors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <style>
+        body { background: #f4f5f7; color: #142d58; }
+        .sobre-header { background: #fff; border-bottom: 1px solid #eaeaea; height: 85px; display: flex; align-items: center; }
+        .sobre-header .container { max-width: 1400px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .sobre-header .logo img { height: 160px; width: auto; margin-top: -40px; margin-bottom: -40px; }
+        .sobre-header nav ul { gap: 40px; }
+        .sobre-header nav a { font-size: 1rem; color: #0b1c3f; }
+        .hero { background: #ececef; text-align: center; padding: 72px 0; }
+        .hero .container { display: flex; flex-direction: column; align-items: center; }
+        .hero h1 { font-family: var(--font-heading); font-size: 56px; color: #132c57; margin-bottom: 8px; text-transform: none; }
+        .hero p { margin: 0; color: #67758f; font-size: 14px; max-width: 520px; }
+        .section-block { padding: 56px 0; }
+        .section-block .container { max-width: 1180px; }
+        .box { background: #fff; border: 1px solid #e7ebf0; border-radius: 12px; box-shadow: 0 3px 10px rgba(18, 40, 82, 0.05); padding: 22px 24px; }
+        .box h3 { font-family: var(--font-heading); font-size: 24px; color: #18355f; margin-bottom: 8px; }
+        .box p { font-size: 14px; color: #5d6f8f; line-height: 1.7; }
+        .section-title-small { font-family: var(--font-heading); font-size: 30px; color: #17355f; margin-bottom: 24px; }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .team-card { background: #fff; border: 1px solid #e7ebf0; border-radius: 10px; box-shadow: 0 3px 10px rgba(18, 40, 82, 0.05); text-align: center; padding: 18px; }
+        .avatar { width: 126px; height: 126px; border-radius: 50%; border: 4px solid #1f355d; margin-bottom: 12px; background-image: url('../IMG/equipa-referencia.png'); background-repeat: no-repeat; background-size: 300% 100%; background-position-y: center; background-color: #d9e0ea; display: inline-block; }
+        .avatar-ricardo { background-position-x: 0%; }
+        .avatar-sonia { background-position-x: 50%; }
+        .avatar-miguel { background-position-x: 100%; }
+        .team-card h4 { font-family: var(--font-heading); font-size: 18px; color: #15315e; margin-bottom: 4px; }
+        .cargo { font-size: 13px; color: #3f5579; font-weight: 600; margin-bottom: 6px; }
+        .team-card p { font-size: 13px; color: #6f7f98; line-height: 1.6; }
+        .testemunhos { background: #eef1f5; }
+        .testemunho-list { display: grid; gap: 14px; }
+        .testemunho-item { background: #fff; border: 1px solid #e7ebf0; border-radius: 10px; box-shadow: 0 3px 10px rgba(18, 40, 82, 0.05); padding: 18px 20px; }
+        .testemunho-item p { font-size: 14px; color: #5d6f8f; margin-bottom: 8px; }
+        .testemunho-item strong { font-size: 13px; color: #18355f; }
+        footer { margin-top: 0; }
+        @media (max-width: 992px) { .team-grid { grid-template-columns: 1fr 1fr; } .hero h1 { font-size: 42px; } .sobre-header { height: auto; padding: 0; } }
+        @media (max-width: 768px) { .team-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="sobre-header">
+        <div class="container">
+            <div class="logo">
+                <img src="../IMG/Logo.png" alt="Logótipo Euroimport Motors">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                    <li><a href="servicos.html">SERVIÇOS</a></li>
+                    <li><a href="veiculos.html">VEÍCULOS</a></li>
+                    <li><a href="sobre.html">SOBRE NÓS</a></li>
+                    <li><a href="contactos.html">CONTACTOS</a></li>
+                    <li><a href="login.html">ENTRAR / REGISTAR</a></li>
+                </ul>
+            </nav>
+            <a href="proposta.html" class="btn btn-primary">Pedir Proposta</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>A Nossa História</h1>
+            <p>Paixão automóvel e rigor profissional desde o primeiro dia.</p>
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="container">
+            <div class="box">
+                <h3>Compromisso com a Excelência</h3>
+                <p>A EUROIMPORT nasceu da vontade de simplificar o acesso ao mercado automóvel europeu para clientes que não abdicam de exclusividade e transparência. Com anos de experiência no setor, construímos uma rede de parceiros de confiança que nos permite garantir as melhores unidades aos melhores preços.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="container">
+            <h2 class="section-title-small">A Nossa Equipa</h2>
+            <div class="team-grid">
+                <article class="team-card">
+                    <img class="avatar" src="../IMG/especialista.png" alt="Ricardo Ferreira">
+                    <h4>Ricardo Ferreira</h4>
+                    <div class="cargo">Especialista de Mercado</div>
+                    <p>Focado na análise das melhores oportunidades no mercado europeu.</p>
+                </article>
+                <article class="team-card">
+                    <img class="avatar" src="../IMG/gestora.png" alt="Sónia Santos">
+                    <h4>Sónia Santos</h4>
+                    <div class="cargo">Gestora de Legalização</div>
+                    <p>Especialista em processos burocráticos, aduaneiros e fiscais (ISV).</p>
+                </article>
+                <article class="team-card">
+                    <img class="avatar" src="../IMG/consultor.png" alt="Miguel Costa">
+                    <h4>Miguel Costa</h4>
+                    <div class="cargo">Consultor Comercial</div>
+                    <p>Acompanhamento personalizado e gestão de expectativas de cada cliente.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-block testemunhos">
+        <div class="container">
+            <h2 class="section-title-small">O que dizem os nossos clientes</h2>
+            <div class="testemunho-list">
+                <article class="testemunho-item">
+                    <p>"Serviço impecável. Comprei um Porsche vindo da Alemanha e não tive de me preocupar com nada. Atenção chave na mão."</p>
+                    <strong>- João Silva</strong>
+                </article>
+                <article class="testemunho-item">
+                    <p>"Profissionalismo raro. A transparência em todo o processo deu-me total confiança. Recomendo vivamente."</p>
+                    <strong>- Maria Santos</strong>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="../IMG/Logo_rodape.png" alt="Logótipo Euroimport Motors" class="logo-footer">
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+            </ul>
+            <div class="footer-socials">
+                <a href="#" target="_blank"><img src="../IMG/insta.png" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="../IMG/face.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="../IMG/whats.png" alt="WhatsApp"></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cliente — Euroimport Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+        header { background: #1a1a2e; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        header img { height: 40px; }
+        .user-info { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+        .badge { background: #c8a96e; color: #1a1a2e; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+        header a { color: #ff6b6b; text-decoration: none; font-weight: 600; }
+        .page { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+        h2 { font-size: 20px; margin-bottom: 20px; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+        .form-group input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
+        .btn-primary { background: #1a1a2e; color: white; }
+        .btn-success { background: #4CAF50; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-sm { padding: 7px 14px; font-size: 13px; }
+        .btn-block { width: 100%; margin-bottom: 8px; padding: 12px; }
+        .estado-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .estado-submetido { background: #e2e8f0; color: #4a5568; }
+        .estado-documentos_solicitados { background: #fef3c7; color: #92400e; }
+        .estado-documentos_recebidos { background: #dbeafe; color: #1e40af; }
+        .estado-proposta_criada { background: #ede9fe; color: #5b21b6; }
+        .estado-aguardando_decisao_direcao { background: #fef3c7; color: #92400e; }
+        .estado-renegociacao { background: #fee2e2; color: #991b1b; }
+        .estado-proposta_enviada { background: #d1fae5; color: #065f46; }
+        .estado-proposta_aceite { background: #d1fae5; color: #065f46; }
+        .estado-pagamento_sinal { background: #dbeafe; color: #1e40af; }
+        .estado-em_importacao { background: #ede9fe; color: #5b21b6; }
+        .estado-pagamento_final { background: #d1fae5; color: #065f46; }
+        .estado-concluido { background: #d1fae5; color: #065f46; }
+        .estado-cancelado { background: #fee2e2; color: #991b1b; }
+        .steps { display: flex; flex-direction: column; gap: 0; margin: 12px 0; }
+        .step { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #aaa; }
+        .step.done { color: #1a1a2e; }
+        .step.done .icon { color: #4CAF50; }
+        .step.active .icon { color: #f39c12; }
+        .step.pending .icon { color: #ddd; }
+        .icon { font-size: 16px; width: 20px; text-align: center; }
+        .notif-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f8f9fa; border-radius: 8px; font-size: 14px; margin-bottom: 8px; }
+        .proposta-box { border: 1px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 12px; background: #fafafa; }
+        .proposta-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
+        #msg { display: none; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: 500; font-size: 14px; }
+        .msg-ok { background: #d4edda; color: #155724; }
+        .msg-err { background: #f8d7da; color: #721c24; }
+        .empty { color: #aaa; font-size: 14px; text-align: center; padding: 20px; }
+        .upload-area { border: 2px dashed #ddd; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; margin-bottom: 12px; }
+        .upload-area:hover { border-color: #1a1a2e; }
+        .doc-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; font-size: 13px; margin-bottom: 6px; }
+        .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+<header>
+    <img src="/IMG/Logo.png" alt="Euroimport">
+    <div class="user-info">
+        <span>👤 <strong id="header-nome"></strong></span>
+        <span class="badge">Cliente</span>
+        <a href="/logout">Sair</a>
+    </div>
+</header>
+
+<div class="page">
+    <div id="msg"></div>
+    <h2>👤 Cliente</h2>
+
+    <div class="card">
+        <h3>🚗 Submeter Pedido de Importação</h3>
+        <div class="form-group">
+            <label>Veículo pretendido</label>
+            <input type="text" id="input-veiculo" placeholder="Ex: BMW Serie 3 2022">
+        </div>
+        <button class="btn btn-primary" onclick="submeterPedido()">Submeter Pedido</button>
+    </div>
+
+    <div id="lista-negocios"></div>
+
+    <div class="card">
+        <h3>🔔 Notificações</h3>
+        <div id="lista-notificacoes"><p class="empty">Sem notificações.</p></div>
+    </div>
+</div>
+
+<script>
+const estadoLabels = {
+    submetido: 'Submetido', documentos_solicitados: 'Documentos Solicitados',
+    documentos_recebidos: 'Documentos Recebidos', proposta_criada: 'Proposta Criada',
+    aguardando_decisao_direcao: 'Aguardando Direção', renegociacao: 'Em Renegociação',
+    proposta_enviada: 'Proposta Enviada', proposta_aceite: 'Proposta Aceite',
+    pagamento_sinal: 'Pagamento Sinal', em_importacao: 'Em Importação',
+    pagamento_final: 'Pagamento Final', concluido: 'Concluído', cancelado: 'Cancelado'
+};
+
+const passosFluxo = [
+    { key: 'submetido', label: 'Solicitação Concluída' },
+    { key: 'documentos_solicitados', label: 'Aguardando Validação' },
+    { key: 'proposta_enviada', label: 'Decisão' },
+    { key: 'pagamento_sinal', label: 'Pagamento Sinal' },
+    { key: 'em_importacao', label: 'Em Importação' },
+    { key: 'pagamento_final', label: 'Pagamento Final' },
+    { key: 'concluido', label: 'Registo no Catálogo' }
+];
+
+const ordemPassos = passosFluxo.map(p => p.key);
+
+function gerarPassos(estado) {
+    const idxAtual = ordemPassos.indexOf(estado);
+    return passosFluxo.map((p, i) => {
+        let cls, icon;
+        if (estado === 'cancelado') { cls = 'pending'; icon = '○'; }
+        else if (i < idxAtual) { cls = 'done'; icon = '✔'; }
+        else if (i === idxAtual) { cls = 'active'; icon = '⏳'; }
+        else { cls = 'pending'; icon = '○'; }
+        return `<div class="step ${cls}"><span class="icon">${icon}</span>${p.label}</div>`;
+    }).join('');
+}
+
+function mostrarMsg(txt, erro = false) {
+    const el = document.getElementById('msg');
+    el.className = erro ? 'msg-err' : 'msg-ok';
+    el.textContent = txt;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 3000);
+}
+
+async function carregar() {
+    const me = await fetch('/api/me').then(r => r.json());
+    if (!me.logado) { window.location.href = '/login'; return; }
+    document.getElementById('header-nome').textContent = me.nome;
+
+    const negocios = await fetch('/api/negocios').then(r => r.json());
+    console.log('Estados:', negocios.map(n => n.estado));
+    negocios.forEach(n => n.estado = n.estado ? n.estado.trim() : 'submetido');
+    const lista = document.getElementById('lista-negocios');
+
+    if (negocios.length === 0) {
+        lista.innerHTML = '';
+    } else {
+        lista.innerHTML = await Promise.all(negocios.map(async n => {
+            const docs = await fetch(`/api/documentos/${n.id}`).then(r => r.json());
+            const docsHtml = docs.map(d => `<div class="doc-item">📄 ${d.nome}</div>`).join('');
+
+            let acoes = '';
+
+            // Solicitar documentos
+            if (n.estado === 'documentos_solicitados') {
+                acoes += `
+                    <div style="margin-top:12px;">
+                        <p style="font-size:13px;color:#856404;margin-bottom:8px;">⚠️ Os documentos foram solicitados. Por favor faz upload.</p>
+                        <div class="upload-area" onclick="document.getElementById('upload-${n.id}').click()">
+                            📁 Clica para fazer upload dos documentos
+                        </div>
+                        <input type="file" id="upload-${n.id}" style="display:none" onchange="uploadDoc(${n.id}, this)">
+                    </div>`;
+            }
+
+            // Proposta recebida - aceitar ou rejeitar
+            if (n.estado === 'proposta_enviada' && n.preco) {
+                acoes += `
+                    <div class="proposta-box" style="margin-top:12px;">
+                        <div class="proposta-row"><span>💰 Preço Proposto:</span><strong>${Number(n.preco).toLocaleString('pt-PT')}€</strong></div>
+                        ${n.preco_sinal ? `<div class="proposta-row"><span>💳 Sinal:</span><strong>${Number(n.preco_sinal).toLocaleString('pt-PT')}€</strong></div>` : ''}
+                        ${n.comentario ? `<div style="font-size:13px;color:#555;margin-top:8px;">${n.comentario}</div>` : ''}
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-success btn-sm" onclick="responder(${n.id}, 'proposta_aceite')">✔ Aceitar Proposta</button>
+                        <button class="btn btn-danger btn-sm" onclick="responder(${n.id}, 'cancelado')">✖ Rejeitar Compra</button>
+                    </div>`;
+            }
+
+            // Pagar sinal
+            if (n.estado === 'proposta_aceite' && !n.sinal_pago) {
+                acoes += `
+                    <div class="proposta-box" style="margin-top:12px;">
+                        <div class="proposta-row"><span>💳 Valor do Sinal:</span><strong>${n.preco_sinal ? Number(n.preco_sinal).toLocaleString('pt-PT') + '€' : 'A definir'}</strong></div>
+                    </div>
+                    <button class="btn btn-warning btn-sm" style="margin-top:8px;" onclick="pagarSinal(${n.id})">💳 Efetuar Pagamento Sinal</button>`;
+            }
+
+            // Pagar valor final
+            if (n.estado === 'em_importacao' && !n.pagamento_final_pago) {
+                acoes += `
+                    <div class="proposta-box" style="margin-top:12px;">
+                        <div class="proposta-row"><span>💰 Valor Final:</span><strong>${n.preco_final ? Number(n.preco_final).toLocaleString('pt-PT') + '€' : 'A definir'}</strong></div>
+                    </div>
+                    <button class="btn btn-success btn-sm" style="margin-top:8px;" onclick="pagarFinal(${n.id})">💰 Pagar Valor Final</button>`;
+            }
+
+            // Cancelar
+            if (!['cancelado','concluido','pagamento_sinal','em_importacao','pagamento_final'].includes(n.estado)) {
+                acoes += `<div style="margin-top:10px;"><button class="btn btn-danger btn-sm" onclick="cancelar(${n.id})">Cancelar Pedido</button></div>`;
+            }
+
+            return `
+                <div class="card">
+                    <h3>🚗 Pedido de Aquisição</h3>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <div>
+                            <div style="font-weight:600;">${n.veiculo || 'Veículo não especificado'}</div>
+                            <div style="font-size:12px;color:#888;margin-top:2px;">${n.codigo}</div>
+                        </div>
+                        <span class="estado-badge estado-${n.estado}">Estado: ${estadoLabels[n.estado]}</span>
+                    </div>
+                    <div class="steps">${gerarPassos(n.estado)}</div>
+                    ${docsHtml ? `<div style="margin-top:12px;"><strong style="font-size:13px;">Documentos enviados:</strong>${docsHtml}</div>` : ''}
+                    ${acoes}
+                </div>`;
+        })).then(arr => arr.join(''));
+    }
+
+    const notifs = await fetch('/api/notificacoes').then(r => r.json());
+    const listaN = document.getElementById('lista-notificacoes');
+    listaN.innerHTML = notifs.length === 0
+        ? '<p class="empty">Sem notificações.</p>'
+        : notifs.map(n => `<div class="notif-item">☑ ${n.mensagem}</div>`).join('');
+}
+
+async function submeterPedido() {
+    const veiculo = document.getElementById('input-veiculo').value.trim();
+    if (!veiculo) { mostrarMsg('Indica o veículo!', true); return; }
+    const res = await fetch('/api/negocios', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ veiculo }) }).then(r => r.json());
+    if (res.sucesso) { document.getElementById('input-veiculo').value = ''; mostrarMsg('Pedido submetido! Código: ' + res.codigo); carregar(); }
+}
+
+async function uploadDoc(id, input) {
+    const formData = new FormData();
+    formData.append('documento', input.files[0]);
+    await fetch(`/api/documentos/${id}`, { method: 'POST', body: formData });
+    mostrarMsg('Documento enviado com sucesso!');
+    carregar();
+}
+
+async function responder(id, estado) {
+    await fetch(`/api/negocios/${id}/estado`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ estado }) });
+    mostrarMsg(estado === 'proposta_aceite' ? 'Proposta aceite!' : 'Compra cancelada.');
+    carregar();
+}
+
+async function pagarSinal(id) {
+    if (!confirm('Confirmas o pagamento do sinal?')) return;
+    await fetch(`/api/negocios/${id}/pagar-sinal`, { method: 'PUT' });
+    mostrarMsg('Pagamento de sinal confirmado!');
+    carregar();
+}
+
+async function pagarFinal(id) {
+    if (!confirm('Confirmas o pagamento final?')) return;
+    await fetch(`/api/negocios/${id}/pagar-final`, { method: 'PUT' });
+    mostrarMsg('Pagamento final confirmado!');
+    carregar();
+}
+
+async function cancelar(id) {
+    if (!confirm('Tens a certeza?')) return;
+    await fetch(`/api/negocios/${id}/estado`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ estado: 'cancelado' }) });
+    mostrarMsg('Pedido cancelado.');
+    carregar();
+}
+
+carregar();
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços | Euroimport Motors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/servicos.css">
+</head>
+<body>
+
+    <header>
+    <div class="container header-flex">
+        <div class="logo">
+            <img src="../IMG/Logo.png" alt="Euroimport Motors">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html" class="ativo">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+                <li><a href="login.html">ENTRAR / REGISTAR</a></li>
+            </ul>
+        </nav>
+        <a href="proposta.html" class="btn btn-primary">Pedir Proposta</a>
+    </div>
+</header>
+
+    <main>
+        <section class="services-hero">
+            <div class="container text-center">
+                <h1 class="page-title">Os Nossos Serviços</h1>
+                <p class="page-subtitle">Soluções completas para a importação do seu veículo premium.</p>
+            </div>
+        </section>
+
+        <section class="services-cards-section container">
+            <div class="cards-wrapper">
+                <div class="service-card box-shadow">
+                    <div class="icon-circle">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h3>Consultoria e Procura</h3>
+                    <p class="service-desc">Pesquisa estratégica nos melhores mercados europeus (Alemanha, Bélgica, Holanda e Luxemburgo) para encontrar o veículo exato que procura.</p>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-check"></i> Acesso a bases de dados exclusivas de concessionários oficiais</li>
+                        <li><i class="fa-solid fa-check"></i> Verificação rigorosa do histórico de manutenção e sinistros</li>
+                        <li><i class="fa-solid fa-check"></i> Análise técnica pré-compra e negociação direta de valores</li>
+                        <li><i class="fa-solid fa-check"></i> Relatório detalhado com fotos e vídeos reais do veículo</li>
+                    </ul>
+                </div>
+
+                <div class="service-card box-shadow">
+                    <div class="icon-circle">
+                        <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <h3>Legalização Total</h3>
+                    <p class="service-desc">Gestão de ponta a ponta de toda a logística e burocracia. Entregamos a sua viatura pronta a circular em Portugal com toda a segurança.</p>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-check"></i> Transporte especializado em camião fechado (opcional)</li>
+                        <li><i class="fa-solid fa-check"></i> Cálculo exato e liquidação de ISV e IUC</li>
+                        <li><i class="fa-solid fa-check"></i> Inspeção técnica (IPO) e atribuição de nova matrícula</li>
+                        <li><i class="fa-solid fa-check"></i> Entrega personalizada em mãos com detalhe técnico</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="simulator-section container text-center" id="simulador">
+            <h2 class="section-title">Simulador de Custos</h2>
+            <div class="simulator-box box-shadow">
+                <form id="form-isv">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="cilindrada">Cilindrada (cc)</label>
+                            <input type="number" id="cilindrada" placeholder="Ex: 2000">
+                        </div>
+                        <div class="input-group">
+                            <label for="emissoes">Emissões CO2 (g/km)</label>
+                            <input type="number" id="emissoes" placeholder="Ex: 140">
+                        </div>
+                        <div class="input-group">
+                            <label for="combustivel">Combustível</label>
+                            <select id="combustivel">
+                                <option value="gasolina">Gasolina</option>
+                                <option value="diesel">Diesel</option>
+                                <option value="hibrido">Híbrido</option>
+                                <option value="eletrico">Elétrico</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="idade">Idade do Veículo</label>
+                            <select id="idade">
+                                <option value="0">Novo</option>
+                                <option value="1">1 ano</option>
+                                <option value="2">2 anos</option>
+                                <option value="3">3 anos</option>
+                                <option value="4">4 anos</option>
+                                <option value="5">5 anos</option>
+                                <option value="6">6-7 anos</option>
+                                <option value="8">8-10 anos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="submit-row">
+                        <button type="submit" class="btn btn-primary btn-simulator">Calcular Estimativa de ISV</button>
+                    </div>
+                </form>
+
+                <div id="resultado-isv">
+                    <h3>Estimativa de ISV</h3>
+                    <p class="isv-valor" id="isv-valor-texto"></p>
+                    <p class="isv-aviso">⚠️ Valor estimado. O ISV final pode variar conforme as tabelas oficiais da AT.</p>
+                    <a href="proposta.html" class="btn-proposta">Pedir Proposta Detalhada</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section container text-center">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <p class="section-subtitle">Esclareça as suas dúvidas sobre o processo de importação.</p>
+            <div class="faq-wrapper">
+                <div class="faq-item">
+                    <h4>Quanto tempo demora o processo?</h4>
+                    <p>Em média, o processo completo desde a escolha do carro até à entrega em Portugal demora entre 15 a 21 dias úteis.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Os carros têm garantia?</h4>
+                    <p>Sim, trabalhamos maioritariamente com veículos de concessionários oficiais que mantêm a garantia de fábrica europeia ou garantias certificadas.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Como é feito o pagamento?</h4>
+                    <p>O pagamento do veículo é feito diretamente ao vendedor/concessionário na origem para total transparência, sendo os nossos serviços faturados separadamente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-bottom text-center">
+            <div class="container">
+                <h2 class="page-title">Pronto para encontrar o seu próximo carro?</h2>
+                <p class="page-subtitle">Deixe que os nossos especialistas cuidem de tudo. Obtenha uma proposta<br>personalizada sem compromisso.</p>
+                <a href="proposta.html" class="btn btn-primary">Pedir Proposta Detalhada</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="../IMG/Logo_rodape.png" alt="Logótipo Euroimport Motors">
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+            </ul>
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.getElementById('form-isv').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const cilindrada = parseInt(document.getElementById('cilindrada').value);
+    const emissoes = parseInt(document.getElementById('emissoes').value);
+    const combustivel = document.getElementById('combustivel').value;
+    const idade = parseInt(document.getElementById('idade').value);
+
+    if (!cilindrada || !emissoes) {
+        alert('Por favor preenche a cilindrada e as emissões de CO2!');
+        return;
+    }
+
+    let isvCilindrada = 0;
+    if (cilindrada <= 1000) isvCilindrada = cilindrada * 0.02;
+    else if (cilindrada <= 1300) isvCilindrada = 20 + (cilindrada - 1000) * 0.05;
+    else if (cilindrada <= 1750) isvCilindrada = 35 + (cilindrada - 1300) * 0.10;
+    else if (cilindrada <= 2600) isvCilindrada = 80 + (cilindrada - 1750) * 0.25;
+    else isvCilindrada = 292.5 + (cilindrada - 2600) * 0.50;
+
+    let isvCO2 = 0;
+    if (emissoes <= 99) isvCO2 = 0;
+    else if (emissoes <= 115) isvCO2 = (emissoes - 99) * 5;
+    else if (emissoes <= 145) isvCO2 = 80 + (emissoes - 115) * 15;
+    else if (emissoes <= 175) isvCO2 = 530 + (emissoes - 145) * 30;
+    else if (emissoes <= 195) isvCO2 = 1430 + (emissoes - 175) * 45;
+    else isvCO2 = 2330 + (emissoes - 195) * 60;
+
+    if (combustivel === 'diesel') isvCO2 *= 1.25;
+    if (combustivel === 'eletrico') { isvCilindrada = 0; isvCO2 = 0; }
+
+    let isv = isvCilindrada + isvCO2;
+
+    const reducoes = [1, 0.92, 0.84, 0.78, 0.72, 0.65, 0.55, 0.45];
+    isv *= reducoes[idade] || 1;
+
+    isv = Math.round(isv);
+
+    document.getElementById('isv-valor-texto').textContent = '€ ' + isv.toLocaleString('pt-PT');
+    const resultado = document.getElementById('resultado-isv');
+    resultado.classList.add('visivel');
+    resultado.scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>

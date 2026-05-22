@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veículos - Euroimport Motors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <style>
+        body { background: #f5f6f8; color: #11264d; }
+        .veiculos-header { background: #fff; border-bottom: 1px solid #eaeaea; height: 85px; display: flex; align-items: center; }
+        .veiculos-header .container { max-width: 1400px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .veiculos-header .logo img { height: 160px; width: auto; margin-top: -40px; margin-bottom: -40px; }
+        .veiculos-header nav ul { gap: 40px; }
+        .veiculos-header nav a { font-size: 1rem; font-weight: 600; color: #0b1c3f; }
+        .hero { background: #ececee; padding: 72px 0; text-align: center; }
+        .hero .container { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .hero h1 { font-family: var(--font-heading); font-size: 56px; color: #132c57; margin-bottom: 10px; text-transform: none; }
+        .hero p { color: #67758f; font-size: 14px; text-transform: none; margin: 0; max-width: 520px; }
+        .catalogo, .importacoes { padding: 60px 0; }
+        .catalogo .container, .importacoes .container { max-width: 1180px; }
+        .section-title-small { font-family: var(--font-heading); font-size: 30px; color: #17355f; margin-bottom: 28px; }
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .car-card-premium, .car-card-mini { background: #fff; border: 1px solid #eceff4; border-radius: 12px; box-shadow: 0 3px 10px rgba(18, 40, 82, 0.06); overflow: hidden; }
+        .car-card-premium { padding: 10px; text-align: center; position: relative; }
+        .car-card-premium img { width: 100%; height: 170px; object-fit: cover; border-radius: 8px; }
+        .car-card-premium h4 { font-family: var(--font-heading); margin-top: 12px; font-size: 16px; color: #15315e; }
+        .car-meta { color: #7a869d; font-size: 12px; margin-top: 4px; }
+        .car-price { margin: 8px 0 12px; font-weight: 700; color: #102956; font-size: 20px; }
+        .btn-small { display: inline-block; background: #0d2450; color: #fff; padding: 8px 22px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+        .btn-center-wrap { text-align: center; margin-top: 20px; }
+        .btn-center-wrap .btn-small { padding: 10px 24px; }
+        button.btn-small { border: none; cursor: pointer; }
+        .is-hidden { display: none; }
+        .importacoes { background: #eef1f5; }
+        .car-card-mini { padding: 8px; }
+        .car-card-mini img { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; }
+        .car-card-mini h4 { font-family: var(--font-heading); font-size: 16px; color: #18355f; margin: 8px 0 2px; }
+        .car-card-mini p { font-size: 12px; color: #74829a; }
+        .car-card-mini p strong { color: #48a570; }
+        footer { margin-top: 0; }
+        .btn-remover {
+            position: absolute;
+            bottom: 18px;
+            right: 18px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+        .btn-remover:hover { background: #c0392b; }
+        @media (max-width: 992px) { .card-grid { grid-template-columns: 1fr 1fr; } .hero h1 { font-size: 42px; } .veiculos-header { height: auto; padding: 0; } }
+        @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="veiculos-header">
+        <div class="container">
+            <div class="logo">
+                <img src="../IMG/Logo.png" alt="Logótipo Euroimport Motors">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                    <li><a href="servicos.html">SERVIÇOS</a></li>
+                    <li><a href="veiculos.html">VEÍCULOS</a></li>
+                    <li><a href="sobre.html">SOBRE NÓS</a></li>
+                    <li><a href="contactos.html">CONTACTOS</a></li>
+                    <li id="nav-auth"><a href="login.html">ENTRAR / REGISTAR</a></li>
+                </ul>
+            </nav>
+            <a href="proposta.html" class="btn btn-primary">Pedir Proposta</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Os Nossos Veículos</h1>
+            <p>Uma seleção exclusiva de máquinas extraordinárias.</p>
+        </div>
+    </section>
+
+    <section class="catalogo">
+        <div class="container">
+            <h2 class="section-title-small">Catálogo Premium</h2>
+            <div class="card-grid" id="catalogo-grid">
+                <p style="color:#aaa;font-size:14px;text-align:center;padding:20px;grid-column:1/-1;">A carregar veículos...</p>
+            </div>
+            <div class="btn-center-wrap" id="btn-catalogo-wrap" style="display:none;">
+                <button type="button" id="btn-catalogo" class="btn-small">Ver Mais Catálogo</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="importacoes">
+        <div class="container">
+            <h2 class="section-title-small">Importações Recentes</h2>
+            <div class="card-grid" id="importacoes-grid">
+                <article class="car-card-mini">
+                    <img src="../IMG/Bugatti_Chiron.png" alt="Bugatti Chiron">
+                    <h4>Bugatti Chiron</h4>
+                    <p>Progresso na Importação: <strong>€35,400</strong></p>
+                </article>
+                <article class="car-card-mini">
+                    <img src="../IMG/LaFerrari.png" alt="La Ferrari">
+                    <h4>La Ferrari</h4>
+                    <p>Progresso na Importação: <strong>€45,400</strong></p>
+                </article>
+                <article class="car-card-mini">
+                    <img src="../IMG/Lamborghini_Aventador.png" alt="Lamborghini Aventador">
+                    <h4>Lamborghini Aventador</h4>
+                    <p>Progresso na Importação: <strong>€36,300</strong></p>
+                </article>
+                <article class="car-card-mini is-hidden extra-importacoes">
+                    <img src="../IMG/Fundo_proposta.jpg" alt="Porsche Panamera">
+                    <h4>Porsche Panamera</h4>
+                    <p>Progresso na Importação: <strong>€32,900</strong></p>
+                </article>
+                <article class="car-card-mini is-hidden extra-importacoes">
+                    <img src="../IMG/mercedes.png" alt="Mercedes-Benz AMG GT">
+                    <h4>Mercedes-Benz AMG GT</h4>
+                    <p>Progresso na Importação: <strong>€35,700</strong></p>
+                </article>
+                <article class="car-card-mini is-hidden extra-importacoes">
+                    <img src="../IMG/porsche911.png" alt="Porsche 911 GT3">
+                    <h4>Porsche 911 GT3 (911)</h4>
+                    <p>Progresso na Importação: <strong>€35,100</strong></p>
+                </article>
+            </div>
+            <div class="btn-center-wrap">
+                <button type="button" id="btn-importacoes" class="btn-small">Ver Mais Importações</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="../IMG/Logo_rodape.png" alt="Logótipo Euroimport Motors" class="logo-footer">
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html">PÁGINA INICIAL</a></li>
+                <li><a href="servicos.html">SERVIÇOS</a></li>
+                <li><a href="veiculos.html">VEÍCULOS</a></li>
+                <li><a href="sobre.html">SOBRE NÓS</a></li>
+                <li><a href="contactos.html">CONTACTOS</a></li>
+            </ul>
+            <div class="footer-socials">
+                <a href="#" target="_blank"><img src="../IMG/insta.png" alt="Instagram"></a>
+                <a href="#" target="_blank"><img src="../IMG/face.png" alt="Facebook"></a>
+                <a href="#" target="_blank"><img src="../IMG/whats.png" alt="WhatsApp"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function configurarExpansao(buttonId, cardsSelector, textoMais, textoMenos) {
+            const button = document.getElementById(buttonId);
+            const cards = document.querySelectorAll(cardsSelector);
+            let expandido = false;
+            button.addEventListener('click', () => {
+                expandido = !expandido;
+                cards.forEach(card => card.classList.toggle('is-hidden', !expandido));
+                button.textContent = expandido ? textoMenos : textoMais;
+            });
+        }
+        configurarExpansao('btn-importacoes', '.extra-importacoes', 'Ver Mais Importações', 'Ver Menos Importações');
+
+        let todosVeiculos = [];
+        let expandido = false;
+        let utilizadorAtual = null;
+
+        async function carregarCatalogo() {
+            const me = await fetch('/api/me').then(r => r.json());
+            utilizadorAtual = me;
+
+            // Atualizar header se estiver logado
+            const navAuth = document.getElementById('nav-auth');
+            if (me.logado) {
+                navAuth.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="font-weight:600; color:#0b1c3f;">👤 ${me.nome}</span>
+                        <a href="/logout" style="color:red; font-weight:600;">Sair</a>
+                    </div>`;
+            }
+
+            const grid = document.getElementById('catalogo-grid');
+            try {
+                todosVeiculos = await fetch('/api/inventario').then(r => r.json());
+
+                if (!todosVeiculos.length) {
+                    grid.innerHTML = '<p style="color:#aaa;font-size:14px;text-align:center;padding:20px;grid-column:1/-1;">Sem veículos disponíveis de momento.</p>';
+                    return;
+                }
+
+                renderVeiculos(false);
+
+                if (todosVeiculos.length > 3) {
+                    document.getElementById('btn-catalogo-wrap').style.display = 'block';
+                    document.getElementById('btn-catalogo').onclick = () => {
+                        expandido = !expandido;
+                        renderVeiculos(expandido);
+                        document.getElementById('btn-catalogo').textContent = expandido ? 'Ver Menos Catálogo' : 'Ver Mais Catálogo';
+                    };
+                }
+            } catch (e) {
+                grid.innerHTML = '<p style="color:#aaa;font-size:14px;text-align:center;padding:20px;grid-column:1/-1;">Erro ao carregar veículos.</p>';
+            }
+        }
+
+        function renderVeiculos(mostrarTodos) {
+            const grid = document.getElementById('catalogo-grid');
+            const lista = mostrarTodos ? todosVeiculos : todosVeiculos.slice(0, 3);
+            const podeRemover = utilizadorAtual && utilizadorAtual.logado &&
+                ['funcionario', 'administrador', 'direcao'].includes(utilizadorAtual.tipo);
+
+            grid.innerHTML = lista.map(v => {
+                const ano = v.ano || new Date(v.data_adicao).getFullYear();
+                return `
+                    <article class="car-card-premium">
+                        ${podeRemover ? `<button class="btn-remover" onclick="removerVeiculo(${v.id})" title="Remover veículo">🗑️</button>` : ''}
+                        <img src="${v.foto ? '/uploads/' + v.foto : '../IMG/Fundo_estatistica.jpg'}" alt="${v.veiculo}">
+                        <h4>${v.veiculo}</h4>
+                        <p class="car-meta">Ano: ${ano} | ${v.km ? v.km + ' km' : '—'} | ${v.cv ? v.cv + ' cv' : '—'}</p>
+                        <p class="car-price">€${Number(v.preco).toLocaleString('pt-PT')}</p>
+                        <a href="proposta.html" class="btn-small">Reservar</a>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        async function removerVeiculo(id) {
+            if (!confirm('Tens a certeza que queres remover este veículo do catálogo?')) return;
+            const res = await fetch(`/api/inventario/${id}`, { method: 'DELETE' }).then(r => r.json());
+            if (res.sucesso) {
+                todosVeiculos = todosVeiculos.filter(v => v.id !== id);
+                renderVeiculos(expandido);
+            } else {
+                alert('Erro ao remover veículo: ' + (res.erro || 'Erro desconhecido'));
+            }
+        }
+
+        carregarCatalogo();
+    </script>
+</body>
+</html>
